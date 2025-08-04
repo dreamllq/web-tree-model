@@ -12,5 +12,7 @@ export type ToJSONType = {
   expand: boolean;
   deep: number;
   hasChildren: boolean;
+  checked: boolean;
+  indeterminate: boolean;
   [key: string]: any;
 }
