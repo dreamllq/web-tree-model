@@ -1,7 +1,7 @@
 {
   "name": "simple-tree-model",
   "description": "模板",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
