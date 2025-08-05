@@ -13,12 +13,16 @@ export class TreeNode {
   store: Map<Id, TreeNode>;
 
   constructor(options:TreeNodeConstructor, store: Map<Id, TreeNode>) {
-    const { id, children, ...data } = options;
+    const { id, children, deep, parent, ...data } = options;
     this.id = id;
+    this.deep = deep || 0;
+    this.parent = parent;
     this.children = children?.map(child => {
-      const childNode = new TreeNode(child, store);
-      childNode.deep = this.deep + 1;
-      childNode.parent = this;
+      const childNode = new TreeNode({
+        ...child,
+        deep: this.deep + 1,
+        parent: this
+      }, store);
       return childNode;
     });
     this.data = data;
@@ -110,6 +114,7 @@ export class TreeNode {
       checked: this.checked,
       indeterminate: this.indeterminate,
       hasChildren: Array.isArray(this.children) && this.children.length > 0,
+      _k: btoa(`${this.id}_${this.checked}_${this.indeterminate}_${this.expanded}`),
       ...this.data
     };
   }
