@@ -1,11 +1,13 @@
 import { TreeDataItem } from '@/types/tree';
 import { TreeNode } from './tree-node';
 import { Id } from '@/types/id';
-
-export class Tree {
+import { Events } from '@/types/events';
+import EventEmitter from 'eventemitter3';
+export class Tree extends EventEmitter<Events, any> {
   root: TreeNode[];
   store: Map<Id, TreeNode> = new Map();
   constructor(data:TreeDataItem[]) {
+    super();
     this.root = data.map(item => new TreeNode(item, this.store));
   }
 
@@ -29,6 +31,7 @@ export class Tree {
     const node = this.store.get(id);
     if (node) {
       node.check(checked);
+      this.emit(Events.SELECTION_CHANGE);
     }
   }
 

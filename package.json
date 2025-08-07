@@ -83,5 +83,8 @@
   "keywords": [
     "vue",
     "vue3"
-  ]
+  ],
+  "dependencies": {
+    "eventemitter3": "^5.0.1"
+  }
 }
