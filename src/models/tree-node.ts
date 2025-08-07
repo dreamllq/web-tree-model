@@ -88,6 +88,7 @@ export class TreeNode {
   private checkChildren(bool: boolean) {
     this.children?.forEach(child => {
       child.checked = bool;
+      child.indeterminate = false;
       child.checkChildren(bool);
     });
   }
