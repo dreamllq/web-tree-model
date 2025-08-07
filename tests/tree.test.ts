@@ -51,6 +51,10 @@ describe('Tree', () => {
       expect(tree.store.has('3')).toBeTruthy();
       expect(tree.store.has('4')).toBeTruthy();
       expect(tree.store.has('5')).toBeTruthy();
+
+      expect(tree.store.get('1')?.deep).toBe(0);
+      expect(tree.store.get('2')?.deep).toBe(1);
+      expect(tree.store.get('3')?.deep).toBe(2);
     });
   });
 
