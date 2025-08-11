@@ -1,5 +1,5 @@
 import { Id } from '@/types/id';
-import { ToJSONType, TreeNodeConstructor } from '@/types/tree-node';
+import { TreeNodeConstructor } from '@/types/tree-node';
 
 export class TreeNode<TData = any> {
   id: Id;
@@ -118,9 +118,9 @@ export class TreeNode<TData = any> {
       indeterminate: this.indeterminate,
       hasChildren: Array.isArray(this.children) && this.children.length > 0,
       childrenIsArray: Array.isArray(this.children),
-      _k: btoa(`${this.id}_${this.checked}_${this.indeterminate}_${this.expanded}`),
-      _checkFlag: btoa(`${this.id}_${this.checked}_${this.indeterminate}`),
-      _expandFlag: btoa(`${this.id}_${this.expanded}`),
+      _k: btoa(`${this.id}_${Number(this.checked)}_${Number(this.indeterminate)}_${Number(this.expanded)}`),
+      _checkFlag: btoa(`${this.id}_${Number(this.checked)}_${Number(this.indeterminate)}`),
+      _expandFlag: btoa(`${this.id}_${Number(this.expanded)}`),
       data: this.data
     };
   }
