@@ -14,9 +14,12 @@ export type ToJSONType = {
   id: Id;
   expand: boolean;
   deep: number;
-  hasChildren: boolean;
   checked: boolean;
   indeterminate: boolean;
+  hasChildren: boolean;
+  childrenIsArray: boolean;
   _k: string;
+  _checkFlag: string;
+  _expandFlag: string;
   [key: string]: any;
 }
