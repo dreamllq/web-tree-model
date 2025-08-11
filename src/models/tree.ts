@@ -59,7 +59,11 @@ export class Tree {
   add(pid: Id, item: TreeDataItem) {
     const node = this.store.get(pid);
     if (node) {
-      node.add(new TreeNode(item, this.store));
+      node.add(new TreeNode({
+        ...item,
+        deep: node.deep + 1,
+        parent: node
+      }, this.store));
     }
   }
 
