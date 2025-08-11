@@ -8,4 +8,4 @@ export type TreeNodeConstructor = {
   [key: string]: any;
 }
 
-export type ToJSONType = ReturnType<typeof TreeNode.prototype.toJSON>;
+export type ToJSONType<TData = any> = ReturnType<TreeNode<TData>['toJSON']>;

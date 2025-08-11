@@ -1,25 +1,25 @@
 import { Id } from '@/types/id';
 import { ToJSONType, TreeNodeConstructor } from '@/types/tree-node';
 
-export class TreeNode {
+export class TreeNode<TData = any> {
   id: Id;
-  children?: TreeNode[];
-  data: any;
+  children?: TreeNode<TData>[];
+  data: TData;
   expanded = false;
-  parent?: TreeNode;
+  parent?: TreeNode<TData>;
   checked = false;
   indeterminate = false;
-  store: Map<Id, TreeNode>;
+  store: Map<Id, TreeNode<TData>>;
 
-  constructor(options:TreeNodeConstructor, parent: TreeNode | undefined, store: Map<Id, TreeNode>) {
+  constructor(options:TreeNodeConstructor, parent: TreeNode<TData> | undefined, store: Map<Id, TreeNode<TData>>) {
     const { id, children, ...data } = options;
     this.id = id;
     this.parent = parent;
     this.children = children?.map(child => {
-      const childNode = new TreeNode({ ...child }, this, store);
+      const childNode = new TreeNode<TData>({ ...child }, this, store);
       return childNode;
     });
-    this.data = data;
+    this.data = data as TData;
 
     store.set(id, this);
     this.store = store;
@@ -55,7 +55,7 @@ export class TreeNode {
     this.updateParentChecked();
   }
 
-  add(item: TreeNode) {
+  add(item: TreeNode<TData>) {
     this.children = this.children || [];
     this.children.push(item);
     if (this.checked) {

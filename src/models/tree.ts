@@ -1,11 +1,11 @@
 import { TreeDataItem } from '@/types/tree';
 import { TreeNode } from './tree-node';
 import { Id } from '@/types/id';
-export class Tree {
-  root: TreeNode[];
-  store: Map<Id, TreeNode> = new Map();
+export class Tree<TData = any> {
+  root: TreeNode<TData>[];
+  store: Map<Id, TreeNode<TData>> = new Map();
   constructor(data:TreeDataItem[]) {
-    this.root = data.map(item => new TreeNode(item, undefined, this.store));
+    this.root = data.map(item => new TreeNode<TData>(item, undefined, this.store));
   }
 
   getById(id: Id) {
@@ -13,7 +13,7 @@ export class Tree {
   }
 
   flat () {
-    const data: ReturnType<typeof TreeNode.prototype.toJSON>[] = [];
+    const data: ReturnType<TreeNode<TData>['toJSON']>[] = [];
     this.root.forEach(node => {
       const list = node.flat();
       data.push(...list);
@@ -36,7 +36,7 @@ export class Tree {
   }
 
   getCheckedNodes() {
-    const nodes: TreeNode[] = [];
+    const nodes: TreeNode<TData>[] = [];
     this.store.forEach(node => {
       if (node.checked) {
         nodes.push(node);
@@ -46,7 +46,7 @@ export class Tree {
   }
 
   getExpandedNodes() {
-    const nodes: TreeNode[] = [];
+    const nodes: TreeNode<TData>[] = [];
     this.store.forEach(node => {
       if (node.expanded) {
         nodes.push(node);
@@ -59,7 +59,7 @@ export class Tree {
   add(pid: Id, item: TreeDataItem) {
     const node = this.store.get(pid);
     if (node) {
-      node.add(new TreeNode(item, node, this.store));
+      node.add(new TreeNode<TData>(item, node, this.store));
     }
   }
 
