@@ -115,6 +115,7 @@ export class TreeNode {
       checked: this.checked,
       indeterminate: this.indeterminate,
       hasChildren: Array.isArray(this.children) && this.children.length > 0,
+      children: this.children?.forEach(item => item.toJSON()),
       _k: btoa(`${this.id}_${this.checked}_${this.indeterminate}_${this.expanded}`),
       _checkFlag: btoa(`${this.id}_${this.checked}_${this.indeterminate}`),
       _expandFlag: btoa(`${this.id}_${this.expanded}`),
