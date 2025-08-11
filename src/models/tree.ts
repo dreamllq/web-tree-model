@@ -5,7 +5,7 @@ export class Tree {
   root: TreeNode[];
   store: Map<Id, TreeNode> = new Map();
   constructor(data:TreeDataItem[]) {
-    this.root = data.map(item => new TreeNode(item, this.store));
+    this.root = data.map(item => new TreeNode(item, undefined, this.store));
   }
 
   getById(id: Id) {
@@ -59,11 +59,7 @@ export class Tree {
   add(pid: Id, item: TreeDataItem) {
     const node = this.store.get(pid);
     if (node) {
-      node.add(new TreeNode({
-        ...item,
-        deep: node.deep + 1,
-        parent: node
-      }, this.store));
+      node.add(new TreeNode(item, node, this.store));
     }
   }
 

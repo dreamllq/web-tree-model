@@ -5,24 +5,18 @@ export class TreeNode {
   id: Id;
   children?: TreeNode[];
   data: any;
-  deep = 0;
   expanded = false;
   parent?: TreeNode;
   checked = false;
   indeterminate = false;
   store: Map<Id, TreeNode>;
 
-  constructor(options:TreeNodeConstructor, store: Map<Id, TreeNode>) {
-    const { id, children, deep, parent, ...data } = options;
+  constructor(options:TreeNodeConstructor, parent: TreeNode | undefined, store: Map<Id, TreeNode>) {
+    const { id, children, ...data } = options;
     this.id = id;
-    this.deep = deep || 0;
     this.parent = parent;
     this.children = children?.map(child => {
-      const childNode = new TreeNode({
-        ...child,
-        deep: this.deep + 1,
-        parent: this
-      }, store);
+      const childNode = new TreeNode({ ...child }, this, store);
       return childNode;
     });
     this.data = data;
@@ -31,7 +25,15 @@ export class TreeNode {
     this.store = store;
   }
 
-  flat ():ToJSONType[] {
+  get deep() {
+    if (this.parent) {
+      return this.parent.deep + 1;
+    } else {
+      return 0;
+    }
+  }
+
+  flat () {
     const data = [this.toJSON()];
     if (this.expanded && Array.isArray(this.children)) {
       this.children.forEach(child => {
@@ -107,7 +109,7 @@ export class TreeNode {
     }
   }
 
-  toJSON (): ToJSONType {
+  toJSON () {
     return {
       id: this.id,
       expanded: this.expanded,
@@ -119,7 +121,7 @@ export class TreeNode {
       _k: btoa(`${this.id}_${this.checked}_${this.indeterminate}_${this.expanded}`),
       _checkFlag: btoa(`${this.id}_${this.checked}_${this.indeterminate}`),
       _expandFlag: btoa(`${this.id}_${this.expanded}`),
-      ...this.data
+      data: this.data
     };
   }
 }
