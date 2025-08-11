@@ -8,6 +8,10 @@ export class Tree {
     this.root = data.map(item => new TreeNode(item, this.store));
   }
 
+  getById(id: Id) {
+    return this.store.get(id);
+  }
+
   flat () {
     const data: ReturnType<typeof TreeNode.prototype.toJSON>[] = [];
     this.root.forEach(node => {
